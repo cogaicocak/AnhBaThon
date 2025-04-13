@@ -30,17 +30,48 @@ loadstring(game:HttpGet(("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V
       })
       
 ------ Tab
-     local Tab1o = MakeTab({Name = "MAIN"})
-     local Tab2o = MakeTab({Name = "AUTO UPGRADES"})
-     local Tab3o = MakeTab({Name = "AUTO BUY EGGS"})
-     
-     
--------TOGGLE 
+local Tab1o = MakeTab({Name = "MAIN"})
+local Tab2o = MakeTab({Name = "AUTO UPGRADES"})
+local Tab3o = MakeTab({Name = "AUTO BUY EGGS"})
 
-     Toggle = AddToggle(Tab1o, {
-      Name = "AUTO CLICK",
-      Default = false,
-      Callback = function()
-     end
-    })
-    
+-------TOGGLE AUTO CLICK
+Toggle = AddToggle(Tab1o, {
+    Name = "AUTO CLICK",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            _G.Clicking = true
+            while _G.Clicking do
+                local args = {
+                    [1] = {
+                        ["Goal"] = "LeftClick"
+                    }
+                }
+                game:GetService("Players").LocalPlayer.Character.Communicate:FireServer(unpack(args))
+                task.wait()
+            end
+        else
+            _G.Clicking = false
+        end
+    end
+})
+
+-------TOGGLE AUTO REBIRTH
+Toggle = AddToggle(Tab1o, {
+    Name = "AUTO REBIRTH",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            _G.Rebirthing = true
+            while _G.Rebirthing do
+                local args = {
+                    [1] = 100000
+                }
+                game:GetService("ReplicatedStorage").Rebirth:FireServer(unpack(args))
+                task.wait(0.1) -- Thêm delay nhỏ để tránh spam
+            end
+        else
+            _G.Rebirthing = false
+        end
+    end
+})
